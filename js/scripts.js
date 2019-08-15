@@ -15,13 +15,17 @@
 	// ================
 	// FETCH FUNCTIONS
 	// ================
-	fetch('https://randomuser.me/api/?results=12').then((res) => res.json()).then((data) => generateName(data));
+	function fetchData(url) {
+		return fetch(url).then((res) => res.json());
+	}
 
-	fetch('https://randomuser.me/api/?results=12').then((res) => res.json()).then((data) => generateEmail(data));
+	fetchData('https://randomuser.me/api/?results=12').then((data) => generateName(data));
 
-	fetch('https://randomuser.me/api/?results=12').then((res) => res.json()).then((data) => generateLocation(data));
+	fetchData('https://randomuser.me/api/?results=12').then((data) => generateEmail(data));
 
-	fetch('https://randomuser.me/api/?results=12').then((res) => res.json()).then((data) => generateImage(data));
+	fetchData('https://randomuser.me/api/?results=12').then((data) => generateLocation(data));
+
+	fetchData('https://randomuser.me/api/?results=12').then((data) => generateImage(data));
 
 	// ================
 	// HELPER FUNCTIONS
@@ -55,4 +59,16 @@
 		const avatar = data.results[0].picture.thumbnail;
 		imgFrame.src = avatar;
 	}
+
+	// ================
+	// MODAL FUNCTIONS
+	// ================
+	entireModal = document.querySelector('.modal-container');
+	employeeCard = document.querySelector('.card');
+	modalCloseBtn = document.querySelector('.modal-close-btn');
+
+	//The following toggles visibility of modal. When close button selected/clicked modal is removed revealing card(s)
+	//When card is selected/clicked modal will reappear
+	modalCloseBtn.addEventListener('click', () => (entireModal.style.display = 'none'));
+	employeeCard.addEventListener('click', () => (entireModal.style.display = 'block'));
 }); // <---- conclusion of DOMContentLoaded function
