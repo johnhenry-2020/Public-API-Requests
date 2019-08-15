@@ -13,10 +13,15 @@
 	// let name = document.getElementById('name');
 
 	// ================
-	// FETCH FUNCTIONS
+	// FETCH FUNCTIONS - using HTML5 fetch API
 	// ================
 	function fetchData(url) {
-		return fetch(url).then((res) => res.json());
+		// return fetch(url)
+		// https://stackoverflow.com/questions/36878255/allow-access-control-allow-origin-header-using-html5-fetch-api
+		return fetch(url, { mode: 'cors' })
+			.then(checkstatus)
+			.then((res) => res.json())
+			.catch((error) => console.log(`Looks like the problem involves... ${error}`));
 	}
 
 	fetchData('https://randomuser.me/api/?results=12').then((data) => generateName(data));
@@ -58,6 +63,14 @@
 		let imgFrame = document.querySelector('#gallery img');
 		const avatar = data.results[0].picture.thumbnail;
 		imgFrame.src = avatar;
+	}
+
+	function checkstatus(response) {
+		if (response.ok === true) {
+			return Promise.resolve(response);
+		} else {
+			return Promise.reject(new Error(response.statusText));
+		}
 	}
 
 	// ================
