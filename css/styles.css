@@ -75,6 +75,7 @@ header h1 {
    BACKGROUND | BACKGROUND EFFECTS
 ======================================== */
 #cf img.top {
+	transform: rotate(180deg);
 	position: absolute;
 	margin: 0 auto;
 	top: 0;
@@ -131,21 +132,34 @@ img.bottom {
 	margin: auto;
 }
 
+.zoom {
+	transition: transform .9s; /* Animation */
+}
+
+.zoom:hover {
+	transform: scale(1.03);
+	background: #3d474f;
+	box-shadow: 0 10px 16px 0 rgba(255, 255, 255, 0.2), 0 6px 20px 0 rgba(255, 255, 255, 0.19) !important;
+}
+
 .card {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
+	font-size: 14.4px;
 	justify-content: flex-start;
 	cursor: pointer;
 	width: 100%;
 	max-width: 360px;
 	margin: 10px 10px 20px;
 	padding: 10px;
-	background: rgba(86, 86, 86, 0.9);
+	background: rgba(86, 86, 86, 0.1);
 	border-radius: 0.25em;
 	border: 1px solid rgba(50, 50, 50, 0.3);
 	transition: .4s ease-out;
 	overflow: hidden;
+	box-shadow: 0 10px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
+	text-align: left;
 }
 
 .card-img {
@@ -159,7 +173,7 @@ img.bottom {
 }
 
 .card-name {
-	margin: 20px auto 0;
+	/* margin: 20px auto 0; */
 }
 
 .card-text {
@@ -183,8 +197,10 @@ img.bottom {
 	right: 0;
 	bottom: 0;
 	left: 0;
-	background: rgba(0, 0, 0, 0.7);
-	/* visibility: hidden; IMPORTANT [ REMOVE THIS WHEN READY TO WORK WITH MODAL ] IMPORTANT */
+	background-image: url(../images/modalBG.jpg);
+	background-position-x: 100%;
+	background-repeat: no-repeat;
+	background-color: black;
 }
 
 .modal {
@@ -194,7 +210,7 @@ img.bottom {
 	min-height: 415px;
 	margin: 10px auto auto;
 	padding-bottom: 15px;
-	background: rgba(255, 255, 255, 0.1);
+	background: rgba(255, 255, 255, 0.3);
 	border-radius: 0.25em;
 	border: 1px solid rgba(100, 100, 100, 0.3);
 	transition: .4s ease-out;
@@ -248,7 +264,7 @@ img.bottom {
 	max-width: 420px;
 	padding: 10px 15px 15px;
 	margin: 10px auto auto;
-	background: rgba(255, 255, 255, .09);
+	background: rgba(255, 255, 255, 0.3);
 	border-radius: 0.25em;
 	border: 1px solid rgba(100, 100, 100, 0.3);
 }

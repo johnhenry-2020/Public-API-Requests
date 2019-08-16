@@ -16,55 +16,98 @@
 	// FETCH FUNCTIONS - using HTML5 fetch API
 	// ================
 	function fetchData(url) {
-		// return fetch(url)
-		// https://stackoverflow.com/questions/36878255/allow-access-control-allow-origin-header-using-html5-fetch-api
+		// No 'Access-Control-Allow-Origin' addresed by setting the mode of fetch to CORS
+		// REFERENCE: https://stackoverflow.com/questions/36878255/allow-access-control-allow-origin-header-using-html5-fetch-api
 		return fetch(url, { mode: 'cors' })
 			.then(checkstatus)
 			.then((res) => res.json())
 			.catch((error) => console.log(`Looks like the problem involves... ${error}`));
 	}
 
-	fetchData('https://randomuser.me/api/?results=12').then((data) => generateName(data));
+	fetchData('https://randomuser.me/api/?results=12').then((data) => {
+		// =====  PROMISE ITERATES THROUGH THE JSON DATA RETURNED A & CREATES THE EMPLOYEE'S PROFILE CARDS DYNAMICALLY =====
+		const name = data.results.map((obj) => {
+			var cardDiv = document.createElement('div'); // Create a <div> element for card div
+			cardDiv.setAttribute('class', 'card zoom'); // Add class(es) to card <div> element
+			var cardImgContainer = document.createElement('div'); // Create a <div> element for card image container
+			cardImgContainer.setAttribute('class', 'card-img-container'); //Add class(es) to card image container <div>
+			var cardImg = new Image(); // Create an image element for profile pictures
+			cardImg.setAttribute('class', 'card-img'); //Add class(es) to card <div> element
+			cardImg.src = 'https://placehold.it/90x90'; //setup the image's source/path
+			cardImg.alt = 'profile picture'; //set the alt attribute
+			var cardInfoContainer = document.createElement('div'); // Create a card info container <div> element for profile's text elements
+			cardInfoContainer.setAttribute('class', 'card-info-container'); // Add class(es) to card info container <div> element
+			var cardProfileName = document.createElement('h3'); // Create a <h3> element for profile card name
+			cardProfileName.setAttribute('id', 'name');
+			cardProfileName.setAttribute('class', 'card-name cap');
+			cardProfileName.innerText = 'First Last';
+			var cardProfileEmail = document.createElement('P'); // Create a <p> element for profile card email
+			cardProfileEmail.setAttribute('class', 'card-text');
+			cardProfileEmail.innerText = 'Email';
+			var cardProfileLocation = document.createElement('P'); // Create a <p> element for profile card location/address
+			cardProfileLocation.setAttribute('class', 'card-text cap');
+			cardProfileLocation.innerText = 'City State';
 
-	fetchData('https://randomuser.me/api/?results=12').then((data) => generateEmail(data));
+			// ======  flow/structure of all dynamically created card elements...  ======
+			document.body.appendChild(cardDiv);
+			cardDiv.appendChild(cardImgContainer);
+			cardImgContainer.appendChild(cardImg);
+			cardImgContainer.appendChild(cardInfoContainer);
+			cardDiv.appendChild(cardProfileName);
+			cardProfileName.appendChild(cardProfileEmail);
+			cardProfileEmail.appendChild(cardProfileLocation);
+			// const galleryDiv = document.getElementById('gallery');
+			// galleryDiv.appendChild('cardDiv');
 
-	fetchData('https://randomuser.me/api/?results=12').then((data) => generateLocation(data));
-
-	fetchData('https://randomuser.me/api/?results=12').then((data) => generateImage(data));
+			generateName(obj);
+		}); //conclusion of name map method
+		const email = data.results.map((obj) => generateEmail(obj));
+		const address = data.results.map((obj) => generateLocation(obj));
+		const image = data.results.map((obj) => generateImage(obj));
+		// return arr;
+	});
+	// .then((data) => generateName(data.results[0]));
+	// .then((data) => generateEmail(data.results[0]))
+	// .then((data) => generateLocation(data.results[0]))
+	// .then((data) => generateImage(data.results[0]));
 
 	// ================
 	// HELPER FUNCTIONS
 	// ================
 	function generateName(data) {
 		let name = document.getElementById('name');
-		const firstName = data.results[0].name.first;
-		const lastName = data.results[0].name.last;
+		const firstName = data.name.first;
+		const lastName = data.name.last;
 		const fullName = `${firstName} ${lastName}`;
 		name.innerText = fullName;
+		// console.log(fullName);
 	}
 
 	function generateEmail(data) {
 		let email = document.querySelector('p.card-text');
-		const emailAddress = data.results[0].email;
+		const emailAddress = data.email;
 		const userEmail = `${emailAddress}`;
 		email.innerText = userEmail;
 	}
 
 	function generateLocation(data) {
 		let address = document.querySelector('p.card-text.cap');
-		const cityAddress = data.results[0].location.city;
-		const stateAddress = data.results[0].location.state;
+		const cityAddress = data.location.city;
+		const stateAddress = data.location.state;
 		const location = `${cityAddress} ${stateAddress}`;
-		console.log((address.innerText = location));
+		// console.log((address.innerText = location));
 		address.innerText = location;
 	}
 
 	function generateImage(data) {
 		let imgFrame = document.querySelector('#gallery img');
-		const avatar = data.results[0].picture.thumbnail;
+		const avatar = data.picture.thumbnail;
 		imgFrame.src = avatar;
 	}
 
+	// ================
+	// ERROR HANDLING FUNCTIONS
+	// ================
 	function checkstatus(response) {
 		if (response.ok === true) {
 			return Promise.resolve(response);
@@ -84,4 +127,5 @@
 	//When card is selected/clicked modal will reappear
 	modalCloseBtn.addEventListener('click', () => (entireModal.style.display = 'none'));
 	employeeCard.addEventListener('click', () => (entireModal.style.display = 'block'));
+	//On page load hide the modal from view...
 }); // <---- conclusion of DOMContentLoaded function
