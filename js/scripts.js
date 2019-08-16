@@ -25,14 +25,15 @@
 	}
 
 	fetchData('https://randomuser.me/api/?results=12').then((data) => {
-		// =====  PROMISE ITERATES THROUGH THE JSON DATA RETURNED A & CREATES THE EMPLOYEE'S PROFILE CARDS DYNAMICALLY =====
-		const name = data.results.map((obj) => {
+		// =====  PROMISE ITERATES THROUGH THE JSON DATA RETURNED & CREATES THE EMPLOYEE'S PROFILE CARDS DYNAMICALLY =====
+		console.log(data);
+		const employee = data.results.map((data) => {
 			var cardDiv = document.createElement('div'); // Create a <div> element for card div
 			cardDiv.setAttribute('class', 'card zoom'); // Add class(es) to card <div> element
 			var cardImgContainer = document.createElement('div'); // Create a <div> element for card image container
 			cardImgContainer.setAttribute('class', 'card-img-container'); //Add class(es) to card image container <div>
 			var cardImg = new Image(); // Create an image element for profile pictures
-			cardImg.setAttribute('class', 'card-img'); //Add class(es) to card <div> element
+			cardImg.setAttribute('class', 'card-img avatar'); //Add class(es) to card <div> element
 			cardImg.src = 'https://placehold.it/90x90'; //setup the image's source/path
 			cardImg.alt = 'profile picture'; //set the alt attribute
 			var cardInfoContainer = document.createElement('div'); // Create a card info container <div> element for profile's text elements
@@ -42,10 +43,10 @@
 			cardProfileName.setAttribute('class', 'card-name cap');
 			cardProfileName.innerText = 'First Last';
 			var cardProfileEmail = document.createElement('P'); // Create a <p> element for profile card email
-			cardProfileEmail.setAttribute('class', 'card-text');
+			cardProfileEmail.setAttribute('class', 'card-text email');
 			cardProfileEmail.innerText = 'Email';
 			var cardProfileLocation = document.createElement('P'); // Create a <p> element for profile card location/address
-			cardProfileLocation.setAttribute('class', 'card-text cap');
+			cardProfileLocation.setAttribute('class', 'card-text cap location');
 			cardProfileLocation.innerText = 'City State';
 
 			// ======  flow/structure of all dynamically created card elements...  ======
@@ -56,20 +57,21 @@
 			cardDiv.appendChild(cardProfileName);
 			cardProfileName.appendChild(cardProfileEmail);
 			cardProfileEmail.appendChild(cardProfileLocation);
-			// const galleryDiv = document.getElementById('gallery');
-			// galleryDiv.appendChild('cardDiv');
+			const galleryDiv = document.getElementById('gallery');
+			galleryDiv.appendChild(cardDiv);
+			console.log(cardDiv);
 
-			generateName(obj);
-		}); //conclusion of name map method
-		const email = data.results.map((obj) => generateEmail(obj));
-		const address = data.results.map((obj) => generateLocation(obj));
-		const image = data.results.map((obj) => generateImage(obj));
-		// return arr;
+			// generateName(data);
+		}); //conclusion of employee map method
+		// const name = data.results.map((data) => generateName(data));
+		// const email = data.results.map((data) => generateEmail(data));
+		// const address = data.results.map((data) => generateLocation(data));
+		// const image = data.results.map((data) => generateImage(data));
 	});
-	// .then((data) => generateName(data.results[0]));
-	// .then((data) => generateEmail(data.results[0]))
-	// .then((data) => generateLocation(data.results[0]))
-	// .then((data) => generateImage(data.results[0]));
+	// .then(data.results.map((data) => generateName(data)))
+	// .then(data.results.map((data) => generateEmail(data)))
+	// .then(data.results.map((data) => generateLocation(data)))
+	// .then(data.results.map((data) => generateImage(data)));
 
 	// ================
 	// HELPER FUNCTIONS
@@ -84,14 +86,14 @@
 	}
 
 	function generateEmail(data) {
-		let email = document.querySelector('p.card-text');
+		let email = document.querySelector('.email');
 		const emailAddress = data.email;
 		const userEmail = `${emailAddress}`;
 		email.innerText = userEmail;
 	}
 
 	function generateLocation(data) {
-		let address = document.querySelector('p.card-text.cap');
+		let address = document.querySelector('.location');
 		const cityAddress = data.location.city;
 		const stateAddress = data.location.state;
 		const location = `${cityAddress} ${stateAddress}`;
@@ -100,7 +102,7 @@
 	}
 
 	function generateImage(data) {
-		let imgFrame = document.querySelector('#gallery img');
+		let imgFrame = document.querySelector('.avatar');
 		const avatar = data.picture.thumbnail;
 		imgFrame.src = avatar;
 	}
@@ -120,12 +122,12 @@
 	// MODAL FUNCTIONS
 	// ================
 	entireModal = document.querySelector('.modal-container');
-	employeeCard = document.querySelector('.card');
+	// employeeCard = document.querySelector('.card');
 	modalCloseBtn = document.querySelector('.modal-close-btn');
 
 	//The following toggles visibility of modal. When close button selected/clicked modal is removed revealing card(s)
 	//When card is selected/clicked modal will reappear
 	modalCloseBtn.addEventListener('click', () => (entireModal.style.display = 'none'));
-	employeeCard.addEventListener('click', () => (entireModal.style.display = 'block'));
+	// employeeCard.addEventListener('click', () => (entireModal.style.display = 'block'));
 	//On page load hide the modal from view...
 }); // <---- conclusion of DOMContentLoaded function
