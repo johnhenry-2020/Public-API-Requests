@@ -264,7 +264,7 @@ img.bottom {
 	background-position-x: 100%;
 	background-repeat: no-repeat;
 	background-color: black;
-	visibility: hidden;
+	display: none; /* Hidden by default */
 }
 
 .modal {

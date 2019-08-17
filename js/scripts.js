@@ -7,6 +7,11 @@
 // ==========================================================
 
 /* DOMContentLoaded...*/ window.addEventListener('DOMContentLoaded', (event) => {
+	/* ========================================
+	 GLOBAL VARIABLES
+	 ======================================== */
+	let cardDiv;
+
 	// ========================================
 	// FETCH FUNCTIONS - using HTML5 fetch API
 	// ========================================
@@ -21,16 +26,16 @@
 
 	fetchData('https://randomuser.me/api/?results=12').then((data) => {
 		// =====  PROMISE ITERATES THROUGH THE JSON DATA RETURNED & CREATES THE EMPLOYEE'S PROFILE CARDS DYNAMICALLY =====
-		const employee = data.results.map((data, name) => {
+		data.results.map((data) => {
 			// ==== CARD DIV ====
-			var cardDiv = document.createElement('div'); // Create a <div> element for card div
+			cardDiv = document.createElement('div'); // Create a <div> element for card div
 			cardDiv.setAttribute('class', 'card zoom'); // Add class(es) to card <div> element
 
 			// ==== CARD IMAGE CONTAINER DIV ====
 			var cardImgContainer = document.createElement('div'); // Create a <div> element for card image container
 			cardImgContainer.setAttribute('class', 'card-img-container'); //Add class(es) to card image container <div>
 
-			// ==== AVATAR PLACEHOLDER ====
+			// ==== AVATAR/IMAGE PLACEHOLDER ====
 			var cardImg = new Image(); // Create an image element for profile pictures
 			cardImg.setAttribute('class', 'card-img avatar'); //Add class(es) to card <div> element
 			cardImg.src = data.picture.thumbnail; // populates the API's JSON employee picture/thumbnail property value to the DOM
@@ -66,6 +71,47 @@
 			cardProfileEmail.appendChild(cardProfileLocation);
 			const galleryDiv = document.getElementById('gallery');
 			galleryDiv.appendChild(cardDiv);
+			// ============================================================================================================
+			// ================
+			// MODAL FUNCTIONS
+			// ================
+			entireModal = document.querySelector('.modal-container');
+			// employeeCard = document.querySelector('.card');
+			modalCloseBtn = document.querySelector('.modal-close-btn');
+
+			//The following toggles visibility of modal. When close button selected/clicked modal is removed revealing card(s)
+			//When card is selected/clicked modal will reappear
+			modalCloseBtn.addEventListener('click', () => (entireModal.style.display = 'none'));
+			// employeeCard.addEventListener('click', () => (entireModal.style.display = 'block'));
+			//On page load hide the modal from view...
+
+			// When the user clicks the employee's card, open the modal
+			cardDiv.onclick = function() {
+				entireModal.style.display = 'block';
+			};
+
+			//Modal Avatar/Image
+			let modalImage = document.querySelector('.modal-img');
+			modalImage.src = data.picture.thumbnail;
+			//Modal Name
+			let modalName = document.querySelector('#modalName');
+			modalName.innerText = data.name.first + ' ' + data.name.last;
+			//Modal Email
+			let modalEmail = document.querySelector('body > div.modal-container > div.modal > div > p:nth-child(3)');
+			modalEmail.innerText = data.email;
+			// //Modal City
+			let modalCity = document.querySelector('body > div.modal-container > div.modal > div > p:nth-child(4)');
+			modalCity.innerText = data.location.city;
+			// //Modal Cell #
+			let modalCell = document.querySelector('body > div.modal-container > div.modal > div > p:nth-child(6)');
+			modalCell.innerText = data.cell;
+			// //Modal Street Address
+			let modalAddress = document.querySelector('body > div.modal-container > div.modal > div > p:nth-child(7)');
+			modalAddress.innerText = data.location.street + ' ' + data.location.city + ' ' + data.location.state;
+			// //Modal Birthday
+			let modalDOB = document.querySelector('body > div.modal-container > div.modal > div > p:nth-child(8)');
+			let date = new Date(data.dob.date);
+			modalDOB.innerText = date;
 			// ============================================================================================================
 		}); //conclusion of employee map method
 	}); //conclusion of fetchData method
@@ -114,17 +160,4 @@
 			return Promise.reject(new Error(response.statusText));
 		}
 	}
-
-	// ================
-	// MODAL FUNCTIONS
-	// ================
-	entireModal = document.querySelector('.modal-container');
-	// employeeCard = document.querySelector('.card');
-	modalCloseBtn = document.querySelector('.modal-close-btn');
-
-	//The following toggles visibility of modal. When close button selected/clicked modal is removed revealing card(s)
-	//When card is selected/clicked modal will reappear
-	modalCloseBtn.addEventListener('click', () => (entireModal.style.display = 'none'));
-	// employeeCard.addEventListener('click', () => (entireModal.style.display = 'block'));
-	//On page load hide the modal from view...
 }); // <---- conclusion of DOMContentLoaded function
