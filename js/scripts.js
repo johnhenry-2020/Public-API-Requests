@@ -31,33 +31,33 @@
 			cardDiv = document.createElement('div'); // Create a <div> element for card div
 			cardDiv.setAttribute('class', 'card zoom'); // Add class(es) to card <div> element
 
-			// ==== CARD IMAGE CONTAINER DIV ====
-			var cardImgContainer = document.createElement('div'); // Create a <div> element for card image container
+			// ====0e9 CARD IMAGE CONTAINER DIV ====
+			const cardImgContainer = document.createElement('div'); // Create a <div> element for card image container
 			cardImgContainer.setAttribute('class', 'card-img-container'); //Add class(es) to card image container <div>
 
 			// ==== AVATAR/IMAGE PLACEHOLDER ====
-			var cardImg = new Image(); // Create an image element for profile pictures
+			const cardImg = new Image(); // Create an image element for profile pictures
 			cardImg.setAttribute('class', 'card-img avatar'); //Add class(es) to card <div> element
 			cardImg.src = data.picture.thumbnail; // populates the API's JSON employee picture/thumbnail property value to the DOM
 			cardImg.alt = 'profile picture'; //set the alt attribute
 
 			// ==== CARD INFO CONTAINER DIV ====
-			var cardInfoContainer = document.createElement('div'); // Create a card info container <div> element for profile's text elements
+			const cardInfoContainer = document.createElement('div'); // Create a card info container <div> element for profile's text elements
 			cardInfoContainer.setAttribute('class', 'card-info-container'); // Add class(es) to card info container <div> element
 
 			// ==== H3 TEXT ELEMENT FOR NAME ====
-			var cardProfileName = document.createElement('h3'); // Create a <h3> element for profile card name
+			const cardProfileName = document.createElement('h3'); // Create a <h3> element for profile card name
 			cardProfileName.setAttribute('id', 'name'); // Add id attribute to header element
 			cardProfileName.setAttribute('class', 'card-name cap'); // Add class(es) to card header h3 text element
 			cardProfileName.innerText = data.name.first + ' ' + data.name.last; // populates the API's JSON first and last name property values to the DOM
 
 			// ==== PARAGRAPH TEXT ELEMENT FOR EMAIL ====
-			var cardProfileEmail = document.createElement('P'); // Create a <p> element for profile card's email info
+			const cardProfileEmail = document.createElement('P'); // Create a <p> element for profile card's email info
 			cardProfileEmail.setAttribute('class', 'card-text email'); // Add class(es) to card's paragraph text element for emails
 			cardProfileEmail.innerText = data.email; // populates the API's JSON email property value to the DOM
 
 			// ==== PARAGRAPH TEXT ELEMENT FOR LOCATION (CITY, STATE) ====
-			var cardProfileLocation = document.createElement('P'); // Create a <p> element for profile card location/address
+			const cardProfileLocation = document.createElement('P'); // Create a <p> element for profile card location/address
 			cardProfileLocation.setAttribute('class', 'card-text cap location'); // Add class(es) to card's paragraph text element for locations
 			cardProfileLocation.innerText = data.location.city + '' + data.location.state; // populates the API's JSON location (city/state) property value to the DOM
 
@@ -71,7 +71,7 @@
 			cardProfileEmail.appendChild(cardProfileLocation);
 			const galleryDiv = document.getElementById('gallery');
 			galleryDiv.appendChild(cardDiv);
-			// ============================================================================================================
+
 			// ================
 			// MODAL FUNCTIONS
 			// ================
@@ -112,7 +112,6 @@
 			let modalDOB = document.querySelector('body > div.modal-container > div.modal > div > p:nth-child(8)');
 			let date = new Date(data.dob.date);
 			modalDOB.innerText = date;
-			// ============================================================================================================
 		}); //conclusion of employee map method
 	}); //conclusion of fetchData method
 
