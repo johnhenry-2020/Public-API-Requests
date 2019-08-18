@@ -25,6 +25,10 @@
 	}
 
 	fetchData('https://randomuser.me/api/?results=12').then((data) => {
+		// Addition of an id property to the JSON object via map method
+		data.results.map((x, i) => {
+			x.id = i + 1;
+		});
 		// =====  PROMISE ITERATES THROUGH THE JSON DATA RETURNED & CREATES THE EMPLOYEE'S PROFILE CARDS DYNAMICALLY =====
 		data.results.map((data) => {
 			// ==== CARD DIV ====
@@ -75,6 +79,94 @@
 			// ================
 			// MODAL FUNCTIONS
 			// ================
+
+			/*================================
+			THE MODAL DATA TEMPLATE
+			================================*/
+			// ==== MODAL CONTAINER ====
+			modalContainer = document.createElement('div'); // Create a <div> element for card div
+			modalContainer.setAttribute('class', 'modal-container'); // Add class(es) to card <div> element
+
+			// ==== MODAL DIV ====
+			const modalDiv = document.createElement('div'); // Create a <div> element for card image container
+			modalDiv.setAttribute('class', 'modal'); //Add class(es) to card image container <div>
+
+			// ==== MODAL CLOSE BUTTON CONTAINER====
+			const modalButton = document.createElement('BUTTON'); // Create a <div> element for card image container
+			modalButton.setAttribute('class', 'modal-close-btn'); //Add class(es) to card image container <div>
+			modalButton.setAttribute('id', 'modal-close-btn');
+
+			// ==== MODAL BUTTON TEXT ====
+			const modalX = document.createElement('BUTTON'); // Create a <div> element for card image container
+			modalX.setAttribute('class', 'modal-close-btn'); //Add class(es) to card image container <div>
+			modalX.setAttribute('id', 'modal-close-btn');
+			modalX.innerText = 'X';
+
+			// ==== MODAL CARD INFO CONTAINER DIV ====
+			const modalInfoContainer = document.createElement('div'); // Create a card info container <div> element for profile's text elements
+			modalInfoContainer.setAttribute('class', 'modal-info-container'); // Add class(es) to card info container <div> element
+
+			// // ==== MODAL AVATAR/IMAGE PLACEHOLDER ====
+			const modalImg = new Image(); // Create an image element for profile pictures
+			modalImg.setAttribute('class', 'card-img avatar'); //Add class(es) to card <div> element
+			modalImg.src = data.picture.thumbnail; // populates the API's JSON employee picture/thumbnail property value to the DOM
+			modalImg.alt = 'profile picture'; //set the alt attribute
+
+			// // ==== MODAL H3 TEXT ELEMENT FOR NAME ====
+			const modalProfileName = document.createElement('h3'); // Create a <h3> element for profile card name
+			modalProfileName.setAttribute('id', 'name'); // Add id attribute to header element
+			modalProfileName.setAttribute('class', 'card-name cap'); // Add class(es) to card header h3 text element
+			modalProfileName.innerText = data.name.first + ' ' + data.name.last; // populates the API's JSON first and last name property values to the DOM
+
+			// // ==== MODAL PARAGRAPH TEXT ELEMENT FOR EMAIL ====
+			const modalProfileEmail = document.createElement('P'); // Create a <p> element for profile card's email info
+			modalProfileEmail.setAttribute('class', 'card-text email'); // Add class(es) to card's paragraph text element for emails
+			modalProfileEmail.innerText = data.email; // populates the API's JSON email property value to the DOM
+
+			// // ==== PARAGRAPH TEXT ELEMENT FOR LOCATION (CITY) ====
+			const modalProfileCity = document.createElement('P'); // Create a <p> element for profile card location/address
+			modalProfileCity.setAttribute('class', 'card-text cap location'); // Add class(es) to card's paragraph text element for locations
+			modalProfileCity.innerText = data.location.city; // populates the API's JSON location (city/state) property value to the DOM
+			const modalLineBreak = document.createElement('hr');
+			// // ==== PARAGRAPH TEXT ELEMENT FOR PHONE # (CELL) ====
+			const modalProfileCell = document.createElement('P'); // Create a <p> element for profile card location/address
+			modalProfileCell.setAttribute('class', 'card-text cap location'); // Add class(es) to card's paragraph text element for locations
+			modalProfileCell.innerText = data.cell; // populates the API's JSON location (city/state) property value to the DOM
+
+			// // ==== PARAGRAPH TEXT ELEMENT FOR LOCATION (Full Address) ====
+			const modalProfileAddress = document.createElement('P'); // Create a <p> element for profile card location/address
+			modalProfileAddress.setAttribute('class', 'card-text cap location'); // Add class(es) to card's paragraph text element for locations
+			modalProfileAddress.innerText =
+				data.location.street +
+				' ' +
+				data.location.city +
+				' ' +
+				data.location.state +
+				' ' +
+				data.location.postcode; // populates the API's JSON location (city/state) property value to the DOM
+
+			// // ==== PARAGRAPH TEXT ELEMENT FOR BIRTHDAY  ====
+			const modalProfileDOB = document.createElement('P'); // Create a <p> element for profile card location/address
+			modalProfileDOB.setAttribute('class', 'card-text cap location'); // Add class(es) to card's paragraph text element for locations
+			modalProfileDOB.innerText = data.dob.date; // populates the API's JSON location (city/state) property value to the DOM
+
+			// ======  the block is responsible for the flow/structure of all dynamically generated modal elements...  ======
+			document.body.appendChild(modalContainer);
+			modalContainer.appendChild(modalDiv);
+			modalDiv.appendChild(modalX);
+			modalDiv.appendChild(modalInfoContainer);
+			modalDiv.appendChild(modalImg);
+			modalDiv.appendChild(modalProfileName);
+			modalDiv.appendChild(modalProfileEmail);
+			modalDiv.appendChild(modalProfileCity);
+			modalDiv.appendChild(modalLineBreak);
+			modalDiv.appendChild(modalProfileCell);
+			modalDiv.appendChild(modalProfileAddress);
+			modalDiv.appendChild(modalProfileDOB);
+
+			/*=========================================================
+				FUNCTIONALITY FOR THE OPENING AND CLOSING OF MODAL WINDOW
+			===========================================================*/
 			entireModal = document.querySelector('.modal-container');
 			// employeeCard = document.querySelector('.card');
 			modalCloseBtn = document.querySelector('.modal-close-btn');
@@ -82,39 +174,18 @@
 			//The following toggles visibility of modal. When close button selected/clicked modal is removed revealing card(s)
 			//When card is selected/clicked modal will reappear
 			modalCloseBtn.addEventListener('click', () => (entireModal.style.display = 'none'));
+			modalX.addEventListener('click', () => (modalContainer.style.visibility = 'hidden'));
+
 			// employeeCard.addEventListener('click', () => (entireModal.style.display = 'block'));
 			//On page load hide the modal from view...
 
 			// When the user clicks the employee's card, open the modal
 			cardDiv.onclick = function() {
-				entireModal.style.display = 'block';
+				modalContainer.style.display = 'block';
+				// entireModal.innerText = modalInner;
 			};
-
-			//Modal Avatar/Image
-			let modalImage = document.querySelector('.modal-img');
-			modalImage.src = data.picture.thumbnail;
-			//Modal Name
-			let modalName = document.querySelector('#modalName');
-			modalName.innerText = data.name.first + ' ' + data.name.last;
-			//Modal Email
-			let modalEmail = document.querySelector('body > div.modal-container > div.modal > div > p:nth-child(3)');
-			modalEmail.innerText = data.email;
-			// //Modal City
-			let modalCity = document.querySelector('body > div.modal-container > div.modal > div > p:nth-child(4)');
-			modalCity.innerText = data.location.city;
-			// //Modal Cell #
-			let modalCell = document.querySelector('body > div.modal-container > div.modal > div > p:nth-child(6)');
-			modalCell.innerText = data.cell;
-			// //Modal Street Address
-			let modalAddress = document.querySelector('body > div.modal-container > div.modal > div > p:nth-child(7)');
-			modalAddress.innerText = data.location.street + ' ' + data.location.city + ' ' + data.location.state;
-			// //Modal Birthday
-			let modalDOB = document.querySelector('body > div.modal-container > div.modal > div > p:nth-child(8)');
-			let date = new Date(data.dob.date);
-			modalDOB.innerText = date;
 		}); //conclusion of employee map method
 	}); //conclusion of fetchData method
-
 	// =================
 	// HELPER FUNCTIONS
 	// =================
