@@ -11,7 +11,6 @@
 	 GLOBAL VARIABLES
 	 ======================================== */
 	let cardDiv;
-	let something = [];
 
 	// ========================================
 	// FETCH FUNCTIONS - using HTML5 fetch API
@@ -26,6 +25,7 @@
 	}
 
 	fetchData('https://randomuser.me/api/?results=12').then((data) => {
+		const employeeData = data.results;
 		// Addition of an id property to the JSON object via map method
 		data.results.map((x, i) => {
 			let id = x.id;
@@ -118,6 +118,7 @@
 			const modalInfoContainer = document.createElement('div'); // Create a modal info container <div> element for profile's text elements
 			modalInfoContainer.setAttribute('class', 'modal-info-container'); // Add class(es) to modal info container <div> element
 			modalInfoContainer.setAttribute('id', id + 1);
+			// modalInfoContainer.style.display = 'none';
 
 			// // ==== MODAL AVATAR/IMAGE PLACEHOLDER ====
 			const modalImg = new Image(); // Create an image element for profile pictures
@@ -189,14 +190,21 @@
 			/*==============================================================================
 				FUNCTIONALITY FOR OPENING & CLOSING OF SPECIFIC MODAL WINDOW FOR EACH EMPLOYEE
 			================================================================================*/
-			//
-			//	ATTENTION ============ ATTENTION ============ ATTENTION ============ ATTENTION ============ ATTENTION
-			//
 			// 	CLICK A CARD, IF THAT CARD DIV'S ID = A MODAL CONTAINER'S DIV ID THEN SET THE STYLE DISPLAY PROPERTY OF THE MODAL CONTAINER WITH THE MATCHING ID TO BLOCK
-			//
-			// 	ATTENTION ============ ATTENTION ============ ATTENTION ============ ATTENTION ============ ATTENTION
-			//
 		}); //conclusion of employee map method
+		// THIS GETS YOU ACCESS TO THE MODAL'S ID....
+		const cardInfo = document.querySelector('.gallery');
+		cardInfo.addEventListener('click', (data) => {
+			let cardId = data.target.id;
+			const modals = document.querySelectorAll('.modal-container');
+
+			modals.forEach((el) => {
+				console.log(el.id);
+				if (cardId == el.id) {
+					el.style.display = 'block';
+				}
+			});
+		});
 	}); //conclusion of fetchData method
 	// =================
 	// HELPER FUNCTIONS
